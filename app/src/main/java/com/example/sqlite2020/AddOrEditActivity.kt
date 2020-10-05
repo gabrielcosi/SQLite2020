@@ -6,11 +6,12 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_add_or_edit.*
 
 class AddOrEditActivity : AppCompatActivity() {
 
-    private var dbHandler: DatabaseHandler? = null
+    private lateinit var alumnoViewModel: AlumnoViewModel
     private var isEditMode = false
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,11 +23,11 @@ class AddOrEditActivity : AppCompatActivity() {
     }
 
     private fun initDB() {
-        dbHandler = DatabaseHandler(this)
+        alumnoViewModel = ViewModelProvider(this).get(AlumnoViewModel::class.java)
         btn_delete.visibility = View.INVISIBLE
         if (intent != null && intent.getStringExtra("Mode") == "E") {
             isEditMode = true
-            val alumno: Alumno = dbHandler!!.getAlumno(intent.getIntExtra("Id",0))
+            val alumno: Alumno = alumnoViewModel.getAlumno(intent.getIntExtra("Id",0))
             input_name.setText(alumno.name)
             input_email.setText(alumno.email)
             input_code.setText(alumno.code)

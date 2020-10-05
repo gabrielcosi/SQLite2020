@@ -7,6 +7,8 @@ import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
@@ -17,8 +19,9 @@ class MainActivity : AppCompatActivity() {
     private var alumnoRecyclerAdapter: AlumnoRecyclerAdapter? = null;
     private var fab: FloatingActionButton? = null
     private var recyclerView: RecyclerView? = null
-    private var listAlumnos: List<Alumno> = ArrayList<Alumno>()
     private var linearLayoutManager: LinearLayoutManager? = null
+    private lateinit var alumnoViewModel: AlumnoViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,12 +32,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initDB() {
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AlumnoRoomDatabase::class.java, "database-name").build()
-        listAlumnos = db.alumnoDao().loadAllAlumnos()
-        alumnoRecyclerAdapter = AlumnoRecyclerAdapter(alumnoList = listAlumnos, context = applicationContext)
+        alumnoViewModel = ViewModelProvider(this).get(AlumnoViewModel::class.java)
+        alumnoRecyclerAdapter = AlumnoRecyclerAdapter(this)
         (recyclerView as RecyclerView).adapter = alumnoRecyclerAdapter
+        alumnoViewModel.allAlumnos.observe(this, Observer { alumnos ->
+            alumnos?.let { alumnoRecyclerAdapter!!.setAlumnos(it) }
+        })
     }
 
     private fun initViews() {
@@ -42,7 +45,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         fab = findViewById(R.id.fab)
         recyclerView = findViewById(R.id.recycler_view)
-        alumnoRecyclerAdapter = AlumnoRecyclerAdapter(alumnoList = listAlumnos, context = applicationContext)
+        alumnoViewModel = ViewModelProvider(this).get(AlumnoViewModel::class.java)
+        alumnoRecyclerAdapter = AlumnoRecyclerAdapter(context = applicationContext)
         linearLayoutManager = LinearLayoutManager(applicationContext)
         (recyclerView as RecyclerView).layoutManager = linearLayoutManager
     }
@@ -65,7 +69,6 @@ class MainActivity : AppCompatActivity() {
         if (id == R.id.action_delete) {
             val dialog = AlertDialog.Builder(this).setTitle("Info").setMessage("Click en 'SI' borrara todos los alumnos")
                 .setPositiveButton("SI") { dialog, _ ->
-                    dbHandler!!.deleteAllAlumnos()
                     initDB()
                     dialog.dismiss()
                 }

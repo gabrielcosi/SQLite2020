@@ -16,12 +16,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 import java.util.ArrayList
 
-class AlumnoRecyclerAdapter(alumnoList: List<Alumno>, private var context: Context) : RecyclerView.Adapter<AlumnoRecyclerAdapter.AlumnoViewHolder>() {
+class AlumnoRecyclerAdapter(private var context: Context) : RecyclerView.Adapter<AlumnoRecyclerAdapter.AlumnoViewHolder>() {
 
-    private var alumnoList: List<Alumno> = ArrayList()
-    init {
-        this.alumnoList = alumnoList
-    }
+    private var alumnoList = emptyList<Alumno>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlumnoViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.list_item_alumnos, parent, false)
@@ -42,6 +39,10 @@ class AlumnoRecyclerAdapter(alumnoList: List<Alumno>, private var context: Conte
             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(i)
         }
+    }
+    internal fun setAlumnos(alumnoList: List<Alumno>) {
+        this.alumnoList = alumnoList
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
