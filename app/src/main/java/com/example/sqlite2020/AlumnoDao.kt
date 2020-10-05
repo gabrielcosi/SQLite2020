@@ -14,8 +14,8 @@ interface AlumnoDao {
     @Delete
     fun deleteAlumno(vararg alumno: Alumno)
 
-    @Delete
-    fun deleteAll(alumno: List<Alumno>)
+    @Query("DELETE FROM alumno_table")
+    fun deleteAll()
 
     @Query("SELECT * FROM alumno_table")
     fun loadAllAlumnos(): List<Alumno>
