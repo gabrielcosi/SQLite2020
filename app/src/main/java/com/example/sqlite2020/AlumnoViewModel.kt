@@ -30,6 +30,6 @@ class AlumnoViewModel(application: Application) : AndroidViewModel(application) 
         repository.updateAlumno(alumno)
     }
     fun deleteAlumno(id: Int) {
-
+        repository.deleteAlumno(id)
     }
 }

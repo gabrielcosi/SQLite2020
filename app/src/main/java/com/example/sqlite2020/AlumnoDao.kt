@@ -11,8 +11,8 @@ interface AlumnoDao {
     @Update
     fun updateAlumno(vararg alumno: Alumno)
 
-    @Delete
-    fun deleteAlumno(vararg alumno: Alumno)
+    @Query("DELETE FROM alumno_table WHERE id = :id")
+    fun deleteAlumno(id: Int)
 
     @Query("DELETE FROM alumno_table")
     fun deleteAll()

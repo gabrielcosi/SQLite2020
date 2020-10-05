@@ -19,4 +19,8 @@ class AlumnoRepository(private val alumnoDao: AlumnoDao) {
     fun updateAlumno(alumno: Alumno) {
         alumnoDao.updateAlumno(alumno)
     }
+
+    fun deleteAlumno(id: Int) {
+        alumnoDao.deleteAlumno(id)
+    }
 }
