@@ -8,11 +8,15 @@ class AlumnoRepository(private val alumnoDao: AlumnoDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insert(alumno: Alumno) {
-        alumnoDao.insertAlumno(alumno)
+    suspend fun addAlumno(alumno: Alumno) {
+        alumnoDao.addAlumno(alumno)
     }
 
-    suspend fun getAlumno(id: Int) {
+    fun getAlumno(id: Int) : Alumno{
+        return alumnoDao.getAlumno(id)
+    }
 
+    fun updateAlumno(alumno: Alumno) {
+        alumnoDao.updateAlumno(alumno)
     }
 }

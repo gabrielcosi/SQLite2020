@@ -39,19 +39,19 @@ class AddOrEditActivity : AppCompatActivity() {
         btn_save.setOnClickListener {
             var success: Boolean = false
             if (!isEditMode) {
-                val alumno: Alumno = Alumno()
-                alumno.name = input_name.text.toString()
-                alumno.email = input_email.text.toString()
-                alumno.code = input_code.text.toString()
-                success = dbHandler?.addAlumno(alumno) as Boolean
+                val alumno = Alumno(
+                    0,
+                input_name.text.toString(),
+                input_email.text.toString(),
+                input_code.text.toString())
+                success = alumnoViewModel.addAlumno(alumno) as Boolean
             } else {
-                val alumno: Alumno = Alumno()
-                alumno.id = intent.getIntExtra("Id", 0)
-                Log.d("id", alumno.id.toString());
-                alumno.name = input_name.text.toString()
-                alumno.email = input_email.text.toString()
-                alumno.code = input_code.text.toString()
-                success = dbHandler?.updateAlumno(alumno) as Boolean
+                val alumno = Alumno(
+                intent.getIntExtra("Id", 0),
+                input_name.text.toString(),
+                input_email.text.toString(),
+                input_code.text.toString())
+                success = alumnoViewModel.updateAlumno(alumno) as Boolean
             }
 
             if (success)
@@ -61,7 +61,7 @@ class AddOrEditActivity : AppCompatActivity() {
         btn_delete.setOnClickListener {
             val dialog = AlertDialog.Builder(this).setTitle("Info").setMessage("Click en 'SI' para eliminar el alumno")
                 .setPositiveButton("SI") { dialog, _ ->
-                    val success = dbHandler?.deleteAlumno(intent.getIntExtra("Id", 0)) as Boolean
+                    val success = alumnoViewModel.deleteAlumno(intent.getIntExtra("Id", 0)) as Boolean
                     if (success)
                         finish()
                     dialog.dismiss()

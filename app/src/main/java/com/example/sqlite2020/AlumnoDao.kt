@@ -6,7 +6,7 @@ import androidx.room.*
 @Dao
 interface AlumnoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAlumno(vararg alumno: Alumno)
+    fun addAlumno(vararg alumno: Alumno)
 
     @Update
     fun updateAlumno(vararg alumno: Alumno)
@@ -20,6 +20,6 @@ interface AlumnoDao {
     @Query("SELECT * FROM alumno_table")
     fun loadAllAlumnos(): LiveData<List<Alumno>>
 
-    @Query("SELECT * FROM alumno_table WHERE id=id")
+    @Query("SELECT * FROM alumno_table WHERE id = :id")
     fun getAlumno(id: Int): Alumno
 }

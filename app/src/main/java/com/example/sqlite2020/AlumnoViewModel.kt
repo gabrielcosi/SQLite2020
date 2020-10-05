@@ -18,11 +18,18 @@ class AlumnoViewModel(application: Application) : AndroidViewModel(application) 
         allAlumnos = repository.allAlumnos
     }
 
-    fun getAlumno(id: Int) = viewModelScope.launch(Dispatchers.IO) {
-        repository.getAlumno(id)
+    fun getAlumno(id: Int) : Alumno{
+        return repository.getAlumno(id)
     }
 
-    fun insert(alumno: Alumno) = viewModelScope.launch(Dispatchers.IO) {
-        repository.insert(alumno)
+    fun addAlumno(alumno: Alumno) = viewModelScope.launch(Dispatchers.IO) {
+        repository.addAlumno(alumno)
+    }
+
+    fun updateAlumno(alumno: Alumno) = viewModelScope.launch(Dispatchers.IO) {
+        repository.updateAlumno(alumno)
+    }
+    fun deleteAlumno(id: Int) {
+
     }
 }
