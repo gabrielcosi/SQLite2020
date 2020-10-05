@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SQLite2020</string>
+    <string name="action_delete">Eliminar Todo</string>
+</resources>
