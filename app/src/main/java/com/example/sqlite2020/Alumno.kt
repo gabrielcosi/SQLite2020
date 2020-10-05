@@ -1,10 +1,7 @@
 package com.example.sqlite2020
 
-import android.provider.BaseColumns
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-class Alumno {
-    var id: Int = 0
-    var name: String = ""
-    var email: String = ""
-    var code: String = ""
-}
+@Entity(tableName = "alumno_table")
+data class Alumno(@PrimaryKey var id: Int ,var name: String?, var email: String?, var code: String?)

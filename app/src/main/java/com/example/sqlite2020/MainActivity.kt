@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +17,6 @@ class MainActivity : AppCompatActivity() {
     private var alumnoRecyclerAdapter: AlumnoRecyclerAdapter? = null;
     private var fab: FloatingActionButton? = null
     private var recyclerView: RecyclerView? = null
-    private var dbHandler: DatabaseHandler? = null
     private var listAlumnos: List<Alumno> = ArrayList<Alumno>()
     private var linearLayoutManager: LinearLayoutManager? = null
 
@@ -29,8 +29,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initDB() {
-        dbHandler = DatabaseHandler(this)
-        listAlumnos = (dbHandler as DatabaseHandler).alumnos()
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AlumnoRoomDatabase::class.java, "database-name").build()
+        listAlumnos = db.alumnoDao().loadAllAlumnos()
         alumnoRecyclerAdapter = AlumnoRecyclerAdapter(alumnoList = listAlumnos, context = applicationContext)
         (recyclerView as RecyclerView).adapter = alumnoRecyclerAdapter
     }
